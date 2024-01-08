@@ -2,7 +2,7 @@ import 'dart:math';
 
 const h = 0.000000001;
 
-const learningRate = 0.001;
+const learningRate = 0.1;
 
 double applyAdjustment({required double currentValue, required double adjustment}) {
   return currentValue - learningRate * adjustment;

@@ -29,7 +29,9 @@ Future<void> train() async {
 
   final stopwatch = Stopwatch()..start();
 
-  for (int k = 0; k < 10; k++) {
+  const trainingIterations = 100;
+
+  for (int k = 0; k < trainingIterations; k++) {
     for (int i = 0; i < normalizedMinstDatasetBatches.length; i++) {
       neuralNetwork = generateUpdatedNeuralNetworkFromBatch(
         currentNeuralNetwork: neuralNetwork,
