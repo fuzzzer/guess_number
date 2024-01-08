@@ -1,1 +1,1 @@
-"Guess Number" is lightweight neural network implemented in pure Dart, designed to recognize handwritten digits from the MNIST dataset. Current accuracy of guesses on test data (using materials/models/model_v8.json) is 92%. 
+"Guess Number" is lightweight neural network implemented in pure Dart, designed to recognize handwritten digits from the MNIST dataset. Current accuracy is is 92% (using materials/models/model_v8.json) . 
