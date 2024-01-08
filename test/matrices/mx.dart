@@ -1,4 +1,4 @@
-import 'package:guess_number/matrices/mx.dart';
+import 'package:guess_number/services/matrices/matrices.dart';
 import 'package:test/test.dart';
 
 void main() {
