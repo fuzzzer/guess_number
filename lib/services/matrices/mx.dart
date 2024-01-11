@@ -413,16 +413,18 @@ class MX {
   static Matrix projectionMatrix(Matrix matrix) {
     Matrix A = List.from(matrix);
     RowReductionResult rowReductionResult = extendedRowReduceEchelonForm(A);
+    //removing all the non pivot columns from the A, because if we want to project on column space of A we want it to have linearly indipendent columns
     A = removeColumns(A, rowReductionResult.nonPivotColumns);
     Matrix transposedA = transposeMatrix(A);
-    Matrix? inverseOfAAndtransposedA = inverse(multiply(transposedA, A));
+    Matrix? inverseOfTransposedATimesA = inverse(multiply(transposedA, A));
 
-    if (inverseOfAAndtransposedA == null) {
-      throw Exception('The inverse of the transposed matrix A does not exist. '
-          'This may be due to A not having full column rank or numerical instability.');
+    if (inverseOfTransposedATimesA == null) {
+      //At this point we have A matrix which has only pivot columns, so has full column rank
+      // so this exception should never be thrown
+      throw Exception('The inverse of A(T)xA matrix A does not exist.');
     }
 
-    Matrix P = multiply(multiply(A, inverseOfAAndtransposedA), transposedA);
+    Matrix P = multiply(multiply(A, inverseOfTransposedATimesA), transposedA);
     return P;
   }
 
