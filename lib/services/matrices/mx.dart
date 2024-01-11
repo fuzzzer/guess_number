@@ -150,7 +150,7 @@ class MX {
 
   static void _swapRows(Matrix matrix, int row1, int row2) {
     List<double> temp = List.from(matrix[row1]);
-    matrix[row1] = List.from(matrix[row2]);
+    matrix[row1] = matrix[row2];
     matrix[row2] = temp;
   }
 
