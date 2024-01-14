@@ -74,7 +74,7 @@ List<Matrix> getLayersListOfCostByLayerZValuesDerivatives({
   final costByLastLayerActivationDerivatives = MX.elementWiseCombineAndTransform(
     networkLayers.last.activations,
     actualResults,
-    (predicted, actual) => costDetivative(predicted, actual),
+    (predicted, actual) => costDerivative(predicted, actual),
   );
 
   final lastLayerActivationByLastLayerZValuesDerivatives = MX.transformMatrix(

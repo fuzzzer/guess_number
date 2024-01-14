@@ -12,7 +12,7 @@ double cost(double predicted, double actual) {
   return pow((predicted - actual), 2).toDouble();
 }
 
-double costDetivative(double predicted, double actual) {
+double costDerivative(double predicted, double actual) {
   return 2 * (predicted - actual);
 }
 
