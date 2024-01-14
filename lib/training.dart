@@ -1,6 +1,7 @@
 import 'package:guess_number/brain/base_models/base_models.dart';
 import 'package:guess_number/providers/network_model_providers/repository/network_model_repository.dart';
-import 'package:guess_number/services/functions/functions.dart';
+import 'package:guess_number/brain/logic/functions/functions.dart';
+import 'package:guess_number/testing.dart';
 
 import 'brain/logic/back_propagation/back_propagation.dart';
 import 'brain/logic/back_propagation/models/back_propagated_layer.dart';
@@ -12,6 +13,7 @@ import 'services/matrices/mx.dart';
 
 void main() async {
   await train();
+  await test();
 }
 
 Future<void> train() async {
@@ -29,7 +31,7 @@ Future<void> train() async {
 
   final stopwatch = Stopwatch()..start();
 
-  const trainingIterations = 100;
+  const trainingIterations = 40;
 
   for (int k = 0; k < trainingIterations; k++) {
     for (int i = 0; i < normalizedMinstDatasetBatches.length; i++) {
