@@ -1,6 +1,6 @@
 import 'package:guess_number/services/services.dart';
 
-import '../../../services/functions/functions.dart';
+import '../functions/functions.dart';
 import '../../base_models/neural_network.dart';
 import 'models/models.dart';
 
@@ -15,23 +15,37 @@ ForwardPropagationResult forwardPropagation({
 }) {
   final initialActivations = MX.listToColumn(currentNormalizedImage);
 
-  //TODO make changes for this to work on any number of layers
   final firstLayer = (neuralNetwork.layers[0]);
   final firstWeightedSum = MX.multiply(firstLayer.weights, initialActivations);
   final firstZValues = MX.add(firstWeightedSum, firstLayer.biases);
   final firstActivations = MX.transformMatrix(firstZValues, (element) => activate(element));
 
-  final secondLayer = (neuralNetwork.layers[1]);
-  final secondWeightedSum = MX.multiply(secondLayer.weights, firstActivations);
-  final secondZValues = MX.add(secondWeightedSum, secondLayer.biases);
-  final secondActivations = MX.transformMatrix(secondZValues, (element) => activate(element));
+  final List<ForwardPropagatedLayer> forwardPropagatedLayers = [
+    ForwardPropagatedLayer(
+      weights: firstLayer.weights,
+      biases: firstLayer.biases,
+      zValues: firstZValues,
+      activations: firstActivations,
+    ),
+  ];
 
-  final thirdLayer = (neuralNetwork.layers[2]);
-  final thirdWeightedSum = MX.multiply(thirdLayer.weights, secondActivations);
-  final thirdZValues = MX.add(thirdWeightedSum, thirdLayer.biases);
-  final thirdActivations = MX.transformMatrix(thirdZValues, (element) => activate(element));
+  for (int i = 1; i < neuralNetwork.layers.length; i++) {
+    final currentLayer = (neuralNetwork.layers[i]);
+    final currentWeightedSum = MX.multiply(currentLayer.weights, forwardPropagatedLayers.last.activations);
+    final currentZValues = MX.add(currentWeightedSum, currentLayer.biases);
+    final currentActivations = MX.transformMatrix(currentZValues, (element) => activate(element));
 
-  final predictedResults = thirdActivations;
+    forwardPropagatedLayers.add(
+      ForwardPropagatedLayer(
+        weights: currentLayer.weights,
+        biases: currentLayer.biases,
+        zValues: currentZValues,
+        activations: currentActivations,
+      ),
+    );
+  }
+
+  final predictedResults = forwardPropagatedLayers.last.activations;
   final actualResults = MX.listToColumn(
     List.generate(
       predictedResults.length,
@@ -50,26 +64,7 @@ ForwardPropagationResult forwardPropagation({
     costMatrix: costMatrix,
     actualResults: actualResults,
     forwardPropagatedNetwork: ForwardPropagatedNetwork(
-      layers: [
-        ForwardPropagatedLayer(
-          weights: firstLayer.weights,
-          biases: firstLayer.biases,
-          zValues: firstZValues,
-          activations: firstActivations,
-        ),
-        ForwardPropagatedLayer(
-          weights: secondLayer.weights,
-          biases: secondLayer.biases,
-          zValues: secondZValues,
-          activations: secondActivations,
-        ),
-        ForwardPropagatedLayer(
-          weights: thirdLayer.weights,
-          biases: thirdLayer.biases,
-          zValues: thirdZValues,
-          activations: thirdActivations,
-        ),
-      ],
+      layers: forwardPropagatedLayers,
     ),
   );
 }

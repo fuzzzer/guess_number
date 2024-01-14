@@ -108,7 +108,7 @@ void main() async {
   final neuralNetwork = generatNeuralNetwork(
     firstInputLayerLength: firstInputLayerLength,
     //This will be network model, final layer count being the end result
-    neuronCountsInLayers: [13, 13, 10],
+    neuronCountsInLayers: [20, 20, 15, 10],
   );
 
   final saveingStopwatch = Stopwatch()..start();
