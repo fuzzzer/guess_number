@@ -1,5 +1,5 @@
 import 'package:guess_number/brain/logic/back_propagation/models/back_propagated_network.dart';
-import 'package:guess_number/services/functions/functions.dart';
+import 'package:guess_number/brain/logic/functions/functions.dart';
 import 'package:guess_number/services/services.dart';
 
 import '../forward_propagation/models/forward_propagated_layer.dart';
